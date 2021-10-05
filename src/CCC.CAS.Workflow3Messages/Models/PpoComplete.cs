@@ -20,7 +20,7 @@ namespace CCC.CAS.Workflow3Messages.Models
     ///
     /// </summary>
     [DataContract]
-    public partial class EchoResponseParm : IEquatable<EchoResponseParm>
+    public partial class PpoComplete : IEquatable<PpoComplete>
     {
         /// <summary>
         /// Gets or Sets Message
@@ -51,7 +51,7 @@ namespace CCC.CAS.Workflow3Messages.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class EchoResponseParm {\n");
+            sb.Append($"class {nameof(PpoComplete)} {{\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("  Client: ").Append(Client).Append("\n");
@@ -77,7 +77,7 @@ namespace CCC.CAS.Workflow3Messages.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((EchoResponseParm)obj);
+            return obj.GetType() == GetType() && Equals((PpoComplete)obj);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace CCC.CAS.Workflow3Messages.Models
         /// </summary>
         /// <param name="other">Instance of EchoResponseParm to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(EchoResponseParm other)
+        public bool Equals(PpoComplete other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -130,12 +130,12 @@ namespace CCC.CAS.Workflow3Messages.Models
 
         #region Operators
 
-        public static bool operator ==(EchoResponseParm left, EchoResponseParm right)
+        public static bool operator ==(PpoComplete left, PpoComplete right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(EchoResponseParm left, EchoResponseParm right)
+        public static bool operator !=(PpoComplete left, PpoComplete right)
         {
             return !Equals(left, right);
         }

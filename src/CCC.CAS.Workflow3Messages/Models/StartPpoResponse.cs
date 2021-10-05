@@ -17,11 +17,17 @@ using System.Text.Json;
 namespace CCC.CAS.Workflow3Messages.Models
 {
     /// <summary>
-    ///
+    /// Response Echo call
     /// </summary>
     [DataContract]
-    public partial class Workflow3SavedResponse : Workflow3, IEquatable<Workflow3SavedResponse>
+    public partial class StartPpoResponse : IEquatable<StartPpoResponse>
     {
+        /// <summary>
+        /// Gets or Sets Parm
+        /// </summary>
+        [DataMember(Name="parm")]
+        public PpoComplete Parm { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -29,7 +35,8 @@ namespace CCC.CAS.Workflow3Messages.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Workflow3SavedResponse {\n");
+            sb.Append($"class {nameof(StartPpoResponse)} {{\n");
+            sb.Append("  Parm: ").Append(Parm).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -38,7 +45,7 @@ namespace CCC.CAS.Workflow3Messages.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public  new string ToJson()
+        public string ToJson()
         {
             return JsonSerializer.Serialize(this, new JsonSerializerOptions() { WriteIndented = true });
         }
@@ -52,20 +59,25 @@ namespace CCC.CAS.Workflow3Messages.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Workflow3SavedResponse)obj);
+            return obj.GetType() == GetType() && Equals((StartPpoResponse)obj);
         }
 
         /// <summary>
-        /// Returns true if Workflow3SavedResponse instances are equal
+        /// Returns true if EchoResponse instances are equal
         /// </summary>
-        /// <param name="other">Instance of Workflow3SavedResponse to be compared</param>
+        /// <param name="other">Instance of EchoResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Workflow3SavedResponse other)
+        public bool Equals(StartPpoResponse other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return false;
+            return
+                (
+                    Parm == other.Parm ||
+                    Parm != null &&
+                    Parm.Equals(other.Parm)
+                );
         }
 
         /// <summary>
@@ -78,6 +90,8 @@ namespace CCC.CAS.Workflow3Messages.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
+                    if (Parm != null)
+                    hashCode = hashCode * 59 + Parm.GetHashCode();
                 return hashCode;
             }
         }
@@ -85,12 +99,12 @@ namespace CCC.CAS.Workflow3Messages.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Workflow3SavedResponse left, Workflow3SavedResponse right)
+        public static bool operator ==(StartPpoResponse left, StartPpoResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Workflow3SavedResponse left, Workflow3SavedResponse right)
+        public static bool operator !=(StartPpoResponse left, StartPpoResponse right)
         {
             return !Equals(left, right);
         }

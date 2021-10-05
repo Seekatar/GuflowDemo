@@ -4,14 +4,14 @@ using System;
 
 namespace CCC.CAS.Workflow3Messages.Messages
 {
-    public interface IGetEchoResponse : CorrelatedBy<Guid>
+    public interface IStartPpoResponse : CorrelatedBy<Guid>
     {
-        EchoResponse? Echo { get; }
+        StartPpoResponse? Echo { get; }
     }
 
-    public class GetEchoResponse : IGetEchoResponse
+    public class StartPpoResponse : IStartPpoResponse
     {
         public Guid CorrelationId { get; } = NewId.NextGuid();
-        public EchoResponse? Echo { get; set; }
+        public StartPpoResponse? Echo { get; set; }
     }
 }

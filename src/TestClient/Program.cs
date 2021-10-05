@@ -25,7 +25,6 @@ namespace TestMessages
             if (sender == null) { throw new Exception("Didn't get sender!"); }
 
             var identity = new CallerIdentity { ClientCode = clientCode, ClientProfileId = profileId, Username = "testClient" };
-            string? id = null;
 
             WriteLine("This is a test client for the message-driven Workflow3 application.");
             await Task.Run(async () =>
@@ -37,63 +36,29 @@ namespace TestMessages
                     {
                         switch (key)
                         {
-                            case "E":
+                            case "1":
                                 {
-                                    var gotIt = await sender.GetEcho(new GetEcho { Name = "Fred" }, identity);
+                                    var gotIt = await sender.StartPpo(new StartPpo { ProfileId = 1 }, identity);
                                     if (gotIt != null)
                                     {
-                                        WriteLine($"Waited for echo! Got response '{gotIt.Parm.Message}'");
+                                        WriteLine($"Waited for start ppo! Got response '{gotIt.Parm.Message}'");
                                     }
                                     else
                                     {
-                                        WriteLine("Waiting for GetEchoResponse published message timed out!");
+                                        WriteLine("Waiting for StartPpoResponse published message timed out!");
                                     }
                                     break;
                                 }
-                            case "S":
+                            case "2":
                                 {
-                                    var workflow3 = await sender.SaveWorkflow3(new SaveWorkflow3 { Workflow3 = new Workflow3 { Name = "ABC123" } }, identity);
-                                    if (workflow3 != null)
+                                    var gotIt = await sender.StartPpo(new StartPpo { ProfileId = 2 }, identity);
+                                    if (gotIt != null)
                                     {
-                                        id = workflow3.Id;
-                                    }
-                                    break;
-                                }
-                            case "D":
-                                {
-                                    if (id == null)
-                                    {
-                                        WriteLine("Must save before calling delete");
+                                        WriteLine($"Waited for start ppo! Got response '{gotIt.Parm.Message}'");
                                     }
                                     else
                                     {
-                                        await sender.DeleteWorkflow3(new DeleteWorkflow3 { Id = id }, identity);
-                                    }
-                                    break;
-                                }
-                            case "P":
-                                {
-                                    await sender.PublishSaved();
-                                    break;
-                                }
-                            case "G":
-                                {
-                                    if (id == null)
-                                    {
-                                        WriteLine("Must save before calling get");
-                                    }
-                                    else
-                                    {
-                                        var workflow3 = await sender.GetWorkflow3(new GetWorkflow3 { Id = id }, identity);
-                                        if (workflow3 != null)
-                                        {
-                                            WriteLine($"Got workflow3 with name '{workflow3?.Name}'");
-                                        }
-                                        else
-                                        {
-                                            WriteLine($"Didn't get workflow3");
-
-                                        }
+                                        WriteLine("Waiting for StartPpoResponse published message timed out!");
                                     }
                                     break;
                                 }
@@ -103,7 +68,7 @@ namespace TestMessages
                     {
                         WriteLine(e);
                     }
-                    WriteLine("Press a key: (S)aveWorkflow3 (G)etWorkflow3 (D)eleteWorkflow3 (P)ublishWorkflow3Saved (E)choTest (Q)uit");
+                    WriteLine("Press a key: TestScenario(1) TestScenario(2) (Q)uit");
                     key = ReadKey(true).KeyChar.ToString().ToUpperInvariant();
                     WriteLine($"Processing {key}");
                 }
