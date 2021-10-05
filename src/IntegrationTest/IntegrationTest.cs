@@ -13,7 +13,7 @@ namespace IntegrationTest
         const string clientCode = "TestClient";
         const int profileId = 9999;
         private Sender? _sender;
-        //private string _workflow2Id = "123456";
+        //private ActivityArgs argsworkflow2Id = "123456";
         private string _name = "Fred";
         private readonly CallerIdentity _identity = new() { ClientCode = clientCode, ClientProfileId = profileId, Username = "testClient" };
 

@@ -105,10 +105,5 @@ namespace CCC.CAS.Workflow3Service.Services
         //    }
         //}
 
-        private Activity? GetActivity(Type activityType)
-        {
-            return _serviceProvider.GetService(activityType) as Activity;
-        }
-
     }
 }

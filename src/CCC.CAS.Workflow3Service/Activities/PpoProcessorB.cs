@@ -20,13 +20,13 @@ namespace CCC.CAS.Workflow3Service.Activities
         DefaultScheduleToStartTimeoutInSeconds = 1000, 
         DefaultStartToCloseTimeoutInSeconds = 1000
         )]
-    public class PpoProcessorA : Activity
+    public class PpoProcessorB : Activity
     {
         private readonly AwsWorkflowConfiguration _config;
         private readonly ILogger<AwsWorkflowDeciderService> _logger;
         private readonly Domain _domain;
 
-        public PpoProcessorA(IOptions<AwsWorkflowConfiguration> config, ILogger<AwsWorkflowDeciderService> logger, Domain domain)
+        public PpoProcessorB(IOptions<AwsWorkflowConfiguration> config, ILogger<AwsWorkflowDeciderService> logger, Domain domain)
         {
             if (config == null) throw new ArgumentNullException(nameof(config));
 

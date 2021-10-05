@@ -1,6 +1,9 @@
 using System;
+using Amazon;
+using Amazon.SimpleWorkflow;
 using CCC.CAS.API.Common.Installers;
 using CCC.CAS.API.Common.Logging;
+using CCC.CAS.Workflow3Service.Activities;
 using CCC.CAS.Workflow3Service.Interfaces;
 using CCC.CAS.Workflow3Service.Repositories;
 using CCC.CAS.Workflow3Service.Services;
@@ -91,10 +94,21 @@ namespace CCC.CAS.Workflow3Service.Installers
                 services.AddHostedService<AwsWorkflowDeciderService>();
                 services.AddHostedService<AwsWorkflowActivityService>();
 
+
                 var section = configuration.GetSection(AwsWorkflowConfiguration.DefaultConfigName);
+                var _config = section.Get<AwsWorkflowConfiguration>();
+
+                services.AddSingleton((provider) => new AmazonSimpleWorkflowClient(_config.AccessKey, _config.SecretKey, RegionEndpoint.GetBySystemName(_config.Region)));
+
+                services.AddSingleton((provider) => new Domain(_config.Domain, provider.GetRequiredService< AmazonSimpleWorkflowClient>()));
+
                 services.AddOptions<AwsWorkflowConfiguration>()
                          .Bind(section)
                          .ValidateDataAnnotations();
+
+                services.AddTransient(typeof(PpoProcessorA));
+                services.AddTransient(typeof(PpoProcessorB));
+                services.AddTransient(typeof(PpoProcessorC));
 
                 services.AddSingleton<IActivityService,ActivityService>();
                 services.AddSingleton<AwsWorkflowConfig>();

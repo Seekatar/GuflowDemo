@@ -5,6 +5,7 @@ using CCC.CAS.Workflow3Service.Activities;
 using CCC.CAS.Workflow3Service.Workflows;
 using Guflow;
 using Guflow.Decider;
+using Guflow.Worker;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -22,27 +23,27 @@ namespace CCC.CAS.Workflow3Service.Services
     {
         private readonly AwsWorkflowConfiguration _config;
         private readonly ILogger<AwsWorkflowDeciderService> _logger;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly Domain _domain;
 
-        public AwsWorkflowActivityService(IOptions<AwsWorkflowConfiguration> config, ILogger<AwsWorkflowDeciderService> logger)
+        public AwsWorkflowActivityService(IOptions<AwsWorkflowConfiguration> config, ILogger<AwsWorkflowDeciderService> logger, IServiceProvider serviceProvider, Domain domain)
         {
             if (config == null) throw new ArgumentNullException(nameof(config));
 
             _config = config.Value;
             _logger = logger;
+            _serviceProvider = serviceProvider;
+            _domain = domain;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
-                // ------------------------ init
-                using var swfClient = new AmazonSimpleWorkflowClient(_config.AccessKey, _config.SecretKey, RegionEndpoint.GetBySystemName(_config.Region));
-                var domain = new Domain(_config.Domain, swfClient);
-
-                await domain.RegisterActivityAsync<PpoProcessorA>().ConfigureAwait(false);
+                await RegisterActivities(_domain).ConfigureAwait(false);
 
                 // -------------------- running it
-                using var host = domain.Host(new[] { typeof(PpoProcessorA) });
+                using var host = _domain.Host(new[] { typeof(PpoProcessorA), typeof(PpoProcessorB), typeof(PpoProcessorC) }, GetActivity);
 
                 _logger.LogDebug($"{nameof(AwsWorkflowActivityService)} polling");
 
@@ -52,11 +53,24 @@ namespace CCC.CAS.Workflow3Service.Services
                 {
                     Thread.Sleep(10000);
                 }
-            } 
+            }
             catch (Exception e)
             {
                 _logger.LogError(e,"In Activity");
             }
+        }
+
+        private static async Task RegisterActivities(Domain domain)
+        {
+            await domain.RegisterActivityAsync<PpoProcessorA>().ConfigureAwait(false);
+            await domain.RegisterActivityAsync<PpoProcessorB>().ConfigureAwait(false);
+            await domain.RegisterActivityAsync<PpoProcessorC>().ConfigureAwait(false);
+        }
+
+        private Activity? GetActivity(Type activityType)
+        {
+            var o = _serviceProvider.GetService(activityType);
+            return  o as Activity;
         }
     }
 }

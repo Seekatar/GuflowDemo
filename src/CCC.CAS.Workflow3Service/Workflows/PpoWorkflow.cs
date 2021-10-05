@@ -16,6 +16,8 @@ namespace CCC.CAS.Workflow3Service.Workflows
         public PpoWorkflow()
         {
             ScheduleActivity<PpoProcessorA>();
+            ScheduleActivity<PpoProcessorB>();
+            ScheduleActivity<PpoProcessorC>();
         }
     }
 }
