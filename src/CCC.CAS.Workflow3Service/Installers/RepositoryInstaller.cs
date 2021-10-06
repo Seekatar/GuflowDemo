@@ -16,8 +16,8 @@ namespace CCC.CAS.Workflow3Service.Installers
 {
     class CustomLog : ILog
     {
-        private string _name;
-        private ILogger<RepositoryInstaller> _logger;
+        private readonly string _name;
+        private readonly ILogger<RepositoryInstaller> _logger;
 
         public CustomLog(string name, ILogger<RepositoryInstaller> debugLogger)
         {
@@ -95,23 +95,24 @@ namespace CCC.CAS.Workflow3Service.Installers
                 services.AddHostedService<AwsWorkflowActivityService>();
 
 
-                var section = configuration.GetSection(AwsWorkflowConfiguration.DefaultConfigName);
-                var _config = section.Get<AwsWorkflowConfiguration>();
+                var section = configuration.GetSection(AwsWorkflowOptions.DefaultConfigName);
+                var _config = section.Get<AwsWorkflowOptions>();
 
                 services.AddSingleton((provider) => new AmazonSimpleWorkflowClient(_config.AccessKey, _config.SecretKey, RegionEndpoint.GetBySystemName(_config.Region)));
 
                 services.AddSingleton((provider) => new Domain(_config.Domain, provider.GetRequiredService< AmazonSimpleWorkflowClient>()));
 
-                services.AddOptions<AwsWorkflowConfiguration>()
+                services.AddOptions<AwsWorkflowOptions>()
                          .Bind(section)
                          .ValidateDataAnnotations();
 
                 services.AddTransient(typeof(PpoProcessorA));
                 services.AddTransient(typeof(PpoProcessorB));
                 services.AddTransient(typeof(PpoProcessorC));
+                services.AddTransient(typeof(PpoEnd));
 
                 services.AddSingleton<IActivityService,ActivityService>();
-                services.AddSingleton<AwsWorkflowConfig>();
+                services.AddSingleton<AwsWorkflowRegistration>();
 
 
                 Log.Register(type => new CustomLog(type.Name, _debugLogger));

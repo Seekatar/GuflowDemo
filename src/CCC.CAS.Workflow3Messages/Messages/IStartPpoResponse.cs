@@ -1,4 +1,3 @@
-using CCC.CAS.Workflow3Messages.Models;
 using MassTransit;
 using System;
 

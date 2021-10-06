@@ -3,12 +3,9 @@ using CCC.CAS.Workflow3Messages.Models;
 using MassTransit;
 using System.Threading.Tasks;
 using static System.Console;
-using static CCC.CAS.API.Common.ServiceBus.MessageHelpers;
 using CCC.CAS.API.Common.ServiceBus;
 using CCC.CAS.API.Common.Models;
 using System;
-using MassTransit.Definition;
-using System.Threading;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +25,7 @@ namespace IntegrationTest
         private readonly IBusControl _busControl;
         static private IConfigurationRoot? _configuration;
         static private ServiceProvider? _serviceWorkflow3;
-        static object _lock = new();
+        static readonly object _lock = new();
         static private Sender? _me;
         private static IBusControl? _bus;
 

@@ -1,6 +1,5 @@
 using CCC.CAS.API.Common.Models;
 using CCC.CAS.Workflow3Messages.Messages;
-using CCC.CAS.Workflow3Messages.Models;
 using System;
 using System.Threading.Tasks;
 using static System.Console;
@@ -34,41 +33,24 @@ namespace TestMessages
                 {
                     try
                     {
-                        switch (key)
+                        if (int.TryParse(key, out var i))
                         {
-                            case "1":
-                                {
-                                    var gotIt = await sender.StartPpo(new StartPpo { ProfileId = 1 }, identity);
-                                    if (gotIt != null)
-                                    {
-                                        WriteLine($"Waited for start ppo! Got response '{gotIt.Parm.Message}'");
-                                    }
-                                    else
-                                    {
-                                        WriteLine("Waiting for StartPpoResponse published message timed out!");
-                                    }
-                                    break;
-                                }
-                            case "2":
-                                {
-                                    var gotIt = await sender.StartPpo(new StartPpo { ProfileId = 2 }, identity);
-                                    if (gotIt != null)
-                                    {
-                                        WriteLine($"Waited for start ppo! Got response '{gotIt.Parm.Message}'");
-                                    }
-                                    else
-                                    {
-                                        WriteLine("Waiting for StartPpoResponse published message timed out!");
-                                    }
-                                    break;
-                                }
-                        }
+                            var gotIt = await sender.StartPpo(new StartPpo { ProfileId = i }, identity);
+                            if (gotIt != null)
+                            {
+                                WriteLine($"Waited for start ppo! Got response '{gotIt.Parm.Message}'");
+                            }
+                            else
+                            {
+                                WriteLine("Waiting for StartPpoResponse published message timed out!");
+                            }
+                        } 
                     }
                     catch (Exception e)
                     {
                         WriteLine(e);
                     }
-                    WriteLine("Press a key: TestScenario(1) TestScenario(2) (Q)uit");
+                    WriteLine("Press a number for test scenrio or (Q)uit");
                     key = ReadKey(true).KeyChar.ToString().ToUpperInvariant();
                     WriteLine($"Processing {key}");
                 }

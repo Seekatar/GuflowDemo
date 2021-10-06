@@ -1,5 +1,4 @@
 using CCC.CAS.API.AspNetCommon;
-using CCC.CAS.API.AspNetCommon.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

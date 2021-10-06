@@ -6,7 +6,7 @@ namespace CCC.CAS.Workflow3Messages.Messages
 {
     public interface IStartPpo : ICommandMessage
     {
-        public static Uri QueueUri => new Uri("queue:StartPpo?durable=true");
+        public static Uri QueueUri => new("queue:StartPpo?durable=true");
 
         string RequestId { get; }
         string ClientCode { get; }

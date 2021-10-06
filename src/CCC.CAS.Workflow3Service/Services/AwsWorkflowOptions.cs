@@ -1,12 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Amazon.S3;
 using Amazon.SimpleWorkflow;
 using Microsoft.Extensions.Configuration;
 
 namespace CCC.CAS.Workflow3Service.Services
 {
-    public class AwsWorkflowConfiguration
+    public class AwsWorkflowOptions
     {
         // this was here for Spike that did multiple S3 NuGet packages
         // not sure I like this here
@@ -20,12 +19,12 @@ namespace CCC.CAS.Workflow3Service.Services
 
         public string ConfigName { get; set; } = DefaultConfigName;
 
-        public static AwsWorkflowConfiguration Load(IConfiguration configuration, string configName = DefaultConfigName)
+        public static AwsWorkflowOptions Load(IConfiguration configuration, string configName = DefaultConfigName)
         {
             if (configuration == null) { throw new ArgumentNullException(nameof(configuration)); }
 
             var section = configuration.GetSection(configName);
-            return section.Get<AwsWorkflowConfiguration>();
+            return section.Get<AwsWorkflowOptions>();
         }
 
         [MinLength(5)]
@@ -43,7 +42,7 @@ namespace CCC.CAS.Workflow3Service.Services
 
         public override string ToString()
         {
-            return $@"{nameof(AwsWorkflowConfiguration)}:
+            return $@"{nameof(AwsWorkflowOptions)}:
     {nameof(ConfigName)}:           '{ConfigName}'
     {nameof(IsEnabled)}:            '{IsEnabled}'
     {nameof(AccessKey)}:            '{AccessKey}'

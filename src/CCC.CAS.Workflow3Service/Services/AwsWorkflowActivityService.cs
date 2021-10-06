@@ -1,19 +1,10 @@
-﻿using Amazon;
-using Amazon.SimpleWorkflow;
-using Amazon.SimpleWorkflow.Model;
-using CCC.CAS.Workflow3Service.Activities;
-using CCC.CAS.Workflow3Service.Workflows;
+﻿using CCC.CAS.Workflow3Service.Activities;
 using Guflow;
-using Guflow.Decider;
 using Guflow.Worker;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,12 +12,12 @@ namespace CCC.CAS.Workflow3Service.Services
 {
     public class AwsWorkflowActivityService : BackgroundService
     {
-        private readonly AwsWorkflowConfiguration _config;
+        private readonly AwsWorkflowOptions _config;
         private readonly ILogger<AwsWorkflowDeciderService> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly Domain _domain;
 
-        public AwsWorkflowActivityService(IOptions<AwsWorkflowConfiguration> config, ILogger<AwsWorkflowDeciderService> logger, IServiceProvider serviceProvider, Domain domain)
+        public AwsWorkflowActivityService(IOptions<AwsWorkflowOptions> config, ILogger<AwsWorkflowDeciderService> logger, IServiceProvider serviceProvider, Domain domain)
         {
             if (config == null) throw new ArgumentNullException(nameof(config));
 
@@ -43,7 +34,7 @@ namespace CCC.CAS.Workflow3Service.Services
                 await RegisterActivities(_domain).ConfigureAwait(false);
 
                 // -------------------- running it
-                using var host = _domain.Host(new[] { typeof(PpoProcessorA), typeof(PpoProcessorB), typeof(PpoProcessorC) }, GetActivity);
+                using var host = _domain.Host(new[] { typeof(PpoProcessorA), typeof(PpoProcessorB), typeof(PpoProcessorC), typeof(PpoEnd) }, GetActivity);
 
                 _logger.LogDebug($"{nameof(AwsWorkflowActivityService)} polling");
 
@@ -65,6 +56,7 @@ namespace CCC.CAS.Workflow3Service.Services
             await domain.RegisterActivityAsync<PpoProcessorA>().ConfigureAwait(false);
             await domain.RegisterActivityAsync<PpoProcessorB>().ConfigureAwait(false);
             await domain.RegisterActivityAsync<PpoProcessorC>().ConfigureAwait(false);
+            await domain.RegisterActivityAsync<PpoEnd>().ConfigureAwait(false);
         }
 
         private Activity? GetActivity(Type activityType)

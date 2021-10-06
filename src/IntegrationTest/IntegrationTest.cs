@@ -1,10 +1,8 @@
 using CCC.CAS.API.Common.Models;
 using CCC.CAS.Workflow3Messages.Messages;
-using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Shouldly;
-using CCC.CAS.Workflow3Messages.Models;
 
 namespace IntegrationTest
 {
@@ -12,9 +10,9 @@ namespace IntegrationTest
     {
         const string clientCode = "TestClient";
         const int profileId = 9999;
-        private Sender? _sender;
+        private readonly Sender? _sender;
         //private ActivityArgs argsworkflow2Id = "123456";
-        private string _name = "Fred";
+        private readonly string _name = "Fred";
         private readonly CallerIdentity _identity = new() { ClientCode = clientCode, ClientProfileId = profileId, Username = "testClient" };
 
         public Tests()

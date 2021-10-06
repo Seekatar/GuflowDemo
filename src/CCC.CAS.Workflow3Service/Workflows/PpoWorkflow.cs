@@ -1,9 +1,5 @@
 ﻿using CCC.CAS.Workflow3Service.Activities;
 using Guflow.Decider;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CCC.CAS.Workflow3Service.Workflows
 {
@@ -16,8 +12,12 @@ namespace CCC.CAS.Workflow3Service.Workflows
         public PpoWorkflow()
         {
             ScheduleActivity<PpoProcessorA>();
-            ScheduleActivity<PpoProcessorB>();
-            ScheduleActivity<PpoProcessorC>();
+
+            ScheduleActivity<PpoProcessorB>()
+                .AfterActivity<PpoProcessorA>();
+
+            ScheduleActivity<PpoProcessorC>()
+                .AfterActivity<PpoProcessorB>();
         }
     }
 }
