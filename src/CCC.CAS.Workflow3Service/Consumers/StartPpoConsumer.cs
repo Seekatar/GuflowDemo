@@ -29,7 +29,7 @@ namespace CCC.CAS.Workflow3Service.Consumers
             // name shouldn't be anything too wacky since we pass it in the url's path
             await _workflow2Repository.StartWorkflow(context.Message).ConfigureAwait(false);
 
-            await context.RespondAsync<IStartPpoResponse>(new StartPpoResponse { })
+            await context.RespondAsync<IStartPpoResponse>(new StartPpoResponse { Started = true })
                 .ConfigureAwait(false);
         }
 

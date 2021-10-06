@@ -11,7 +11,6 @@ namespace IntegrationTest
         const string clientCode = "TestClient";
         const int profileId = 9999;
         private readonly Sender? _sender;
-        //private ActivityArgs argsworkflow2Id = "123456";
         private readonly string _name = "Fred";
         private readonly CallerIdentity _identity = new() { ClientCode = clientCode, ClientProfileId = profileId, Username = "testClient" };
 
@@ -26,10 +25,9 @@ namespace IntegrationTest
         [Test]
         public async Task StartPpoTest()
         {
-            var echo = (await _sender!.StartPpo(new StartPpo { ClientCode = _name }, _identity).ConfigureAwait(false))?.Parm;
-            echo.ShouldNotBeNull();
-            echo!.Message.ShouldNotBeEmpty();
-            echo!.Name.ShouldBe(_name);
+            var started = (await _sender!.StartPpo(new StartPpo { ClientCode = _name }, _identity).ConfigureAwait(false));
+            started.ShouldNotBeNull();
+            started.ShouldBeTrue();
         }
     }
 }

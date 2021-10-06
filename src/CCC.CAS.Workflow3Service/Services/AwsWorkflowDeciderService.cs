@@ -57,7 +57,7 @@ namespace CCC.CAS.Workflow3Service.Services
 
         private ErrorAction LogError(Error error)
         {
-            _logger.LogError($">>>>>>>>>>>>> {error.Exception}");
+            _logger.LogError(error.Exception, nameof(AwsWorkflowDeciderService));
             return ErrorAction.Continue;
         }
     }

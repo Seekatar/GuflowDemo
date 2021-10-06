@@ -15,7 +15,7 @@ namespace CCC.CAS.Workflow3Messages.Messages
 
     public class StartPpo : IStartPpo
     {
-        public Guid CorrelationId { get; } = NewId.NextGuid();
+        public Guid CorrelationId { get; set; } = NewId.NextGuid();
         public Uri MessageQueueUri => IStartPpo.QueueUri;
 
         public string RequestId { get; set; } = "";

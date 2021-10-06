@@ -5,12 +5,12 @@ namespace CCC.CAS.Workflow3Messages.Messages
 {
     public interface IStartPpoResponse : CorrelatedBy<Guid>
     {
-        StartPpoResponse? Echo { get; }
+        bool Started { get; }
     }
 
     public class StartPpoResponse : IStartPpoResponse
     {
         public Guid CorrelationId { get; } = NewId.NextGuid();
-        public StartPpoResponse? Echo { get; set; }
+        public bool Started { get; set; }
     }
 }

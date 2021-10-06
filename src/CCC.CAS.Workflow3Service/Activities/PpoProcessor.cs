@@ -1,4 +1,5 @@
-﻿using CCC.CAS.Workflow3Service.Services;
+﻿using CCC.CAS.Workflow3Messages.Messages;
+using CCC.CAS.Workflow3Service.Services;
 using Guflow;
 using Guflow.Decider;
 using Guflow.Worker;
@@ -18,16 +19,18 @@ namespace CCC.CAS.Workflow3Service.Activities
         [ActivityMethod]
         public async Task<ActivityResponse> Execute(ActivityArgs args)
         {
-            Logger.LogInformation($">>>>>>>>>> {GetType().Name} processing...");
+            var startPpo = args?.Input.As<StartPpo>() ?? throw new ArgumentNullException(nameof(args));
+
+            Logger.LogInformation(">>>>>>>>>> {typeName} processing for {clientCode}", GetType().Name, startPpo.ClientCode);
 
             await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
 
-            DoWork(args);
+            DoWork(args, startPpo);
 
             return Complete(new { Started = true });
         }
 
-        private void DoWork(ActivityArgs args)
+        private void DoWork(ActivityArgs args, IStartPpo startPpo)
         {
             var _ = Task.Run(async () =>
             {
@@ -41,7 +44,7 @@ namespace CCC.CAS.Workflow3Service.Activities
                     SignalInput = new { Test = 1, ClassName = GetType().Name },
                     WorkflowRunId = runId
                 }).ConfigureAwait(false);
-                Logger.LogInformation($">>>>>>>>>> {GetType().Name} signaled!");
+                Logger.LogInformation(">>>>>>>>>> {typeName} signaled for {clientCode}", GetType().Name, startPpo.ClientCode);
 
             });
         }

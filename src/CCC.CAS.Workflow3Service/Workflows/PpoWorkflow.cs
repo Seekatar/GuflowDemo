@@ -3,7 +3,7 @@ using Guflow.Decider;
 
 namespace CCC.CAS.Workflow3Service.Workflows
 {
-    [WorkflowDescription("1.2", DefaultChildPolicy = ChildPolicy.Terminate,
+    [WorkflowDescription("1.3", DefaultChildPolicy = ChildPolicy.Terminate,
         DefaultTaskListName = "defaultTaskList",
         DefaultExecutionStartToCloseTimeoutInSeconds = 10000,
         DefaultTaskStartToCloseTimeoutInSeconds = 20)]

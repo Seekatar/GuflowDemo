@@ -16,16 +16,27 @@ namespace TestMessages
         /// Defines the entry point of the application.
         /// </summary>
         /// <param name="showBusConfig">if set to <c>true</c> [show bus configuration].</param>
-        /// <param name="clientCode">defaults to geico</param>
-        /// <param name="profileId">defaults to a geico profileId</param>
-        static async Task Main(bool showBusConfig = false, string clientCode = "geico", int profileId = 176453)
+        static async Task Main(bool showBusConfig = false)
         {
             var sender = Sender.Initialize(showBusConfig);
             if (sender == null) { throw new Exception("Didn't get sender!"); }
 
-            var identity = new CallerIdentity { ClientCode = clientCode, ClientProfileId = profileId, Username = "testClient" };
 
-            WriteLine("This is a test client for the message-driven Workflow3 application.");
+
+            var startPpo = new StartPpo[] { new StartPpo
+                                            {
+                                                ClientCode = "geico",
+                                                ProfileId = 176453,
+                                                RequestId = Guid.NewGuid().ToString()
+                                            },
+                                            new StartPpo
+                                            {
+                                                ClientCode = "nationwide",
+                                                ProfileId = 180181,
+                                                RequestId = Guid.NewGuid().ToString()
+                                            }
+            };
+            WriteLine("This is a test client for the message-driven Workflow application.");
             await Task.Run(async () =>
             {
                 var key = string.Empty;
@@ -33,24 +44,27 @@ namespace TestMessages
                 {
                     try
                     {
-                        if (int.TryParse(key, out var i))
+                        if (int.TryParse(key, out var j) && j <= startPpo.Length)
                         {
-                            var gotIt = await sender.StartPpo(new StartPpo { ProfileId = i }, identity);
-                            if (gotIt != null)
+                            var i = j - 1;
+                            startPpo[i].CorrelationId = Guid.NewGuid();
+                            var identity = new CallerIdentity { ClientCode = startPpo[i].ClientCode, ClientProfileId = startPpo[i].ProfileId, Username = "testClient" };
+                            var started = await sender.StartPpo(startPpo[i], identity);
+                            if (started)
                             {
-                                WriteLine($"Waited for start ppo! Got response '{gotIt.Parm.Message}'");
+                                WriteLine($"Waited for start ppo for {startPpo[i].ClientCode}!");
                             }
                             else
                             {
                                 WriteLine("Waiting for StartPpoResponse published message timed out!");
                             }
-                        } 
+                        }
                     }
                     catch (Exception e)
                     {
                         WriteLine(e);
                     }
-                    WriteLine("Press a number for test scenrio or (Q)uit");
+                    WriteLine("1 = geico 2 = nw, (Q)uit");
                     key = ReadKey(true).KeyChar.ToString().ToUpperInvariant();
                     WriteLine($"Processing {key}");
                 }

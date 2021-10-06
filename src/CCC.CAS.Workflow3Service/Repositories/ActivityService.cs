@@ -25,17 +25,18 @@ namespace CCC.CAS.Workflow3Service.Repositories
             _domain = domain;
         }
 
-        public async Task StartWorkflow(IStartPpo scenario)
+        public async Task StartWorkflow(IStartPpo startPpo)
         {
-            var id = Guid.NewGuid().ToString();
-            _logger.LogInformation($"Starting workflow with id {id}");
-            StartWorkflowRequest request = scenario.ProfileId switch
+            var workflowId = Guid.NewGuid().ToString();
+            _logger.LogInformation("Starting workflow with id {workflowId}", workflowId);
+
+            StartWorkflowRequest request = startPpo.ClientCode switch
             {
-                2 => StartWorkflowRequest.For<PpoWorkflowSignaled>(id),
-                _ => StartWorkflowRequest.For<PpoWorkflow>(id),
+                "geico" => StartWorkflowRequest.For<PpoWorkflowSignaled>(workflowId),
+                _ => StartWorkflowRequest.For<PpoWorkflow>(workflowId),
             };
             request.TaskListName = _config.DefaultTaskList;
-            request.Input = scenario;
+            request.Input = startPpo;
             await _domain.StartWorkflowAsync(request).ConfigureAwait(false);
         }
     }

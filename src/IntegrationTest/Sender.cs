@@ -102,9 +102,9 @@ namespace IntegrationTest
         }
 
         // Another example of Request/Response call where consumer sends response to this caller
-        public async Task<StartPpoResponse?> StartPpo(StartPpo StartPpo, CallerIdentity identity)
+        public async Task<bool> StartPpo(IStartPpo StartPpo, CallerIdentity identity)
         {
-            return (await _busControl.RequestResponse<IStartPpo, IStartPpoResponse>(StartPpo, identity).ConfigureAwait(false))?.Echo;
+            return (await _busControl.RequestResponse<IStartPpo, IStartPpoResponse>(StartPpo, identity).ConfigureAwait(false))?.Started ?? false;
         }
 
         public void Dispose()

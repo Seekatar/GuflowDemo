@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CCC.CAS.Workflow3Service.Activities
 {
-    [ActivityDescription("1.2",
+    [ActivityDescription("1.3",
         DefaultTaskListName = "defaultTaskList",
         DefaultHeartbeatTimeoutInSeconds = 10000,
         DefaultScheduleToCloseTimeoutInSeconds = 1000,
