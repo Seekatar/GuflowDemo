@@ -25,7 +25,10 @@ namespace CCC.CAS.Workflow3Service.Activities
 
             await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
 
-            DoWork(args, startPpo);
+            if (!String.Equals(startPpo.ClientCode, "nationwide", StringComparison.OrdinalIgnoreCase))
+            {
+                DoWork(args, startPpo);
+            }
 
             return Complete(new { Started = true });
         }

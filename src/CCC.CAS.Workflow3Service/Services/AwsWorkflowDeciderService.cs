@@ -34,8 +34,7 @@ namespace CCC.CAS.Workflow3Service.Services
             {
                 await _registration.Register().ConfigureAwait(false);
 
-                // using var host = _domain.Host(new Workflow [] { new PpoWorkflow(), new PpoWorkflowSignaled() });
-                using var host = _domain.Host(new Workflow [] { new PpoWorkflowSignaled() });
+                using var host = _domain.Host(new Workflow [] { new PpoWorkflow(), new PpoWorkflowSignaled(), new PpoWorkflowSignaledDynamic() });
                 host.OnError(LogError);
                 host.OnPollingError(LogError);
                 host.OnResponseError(LogError);

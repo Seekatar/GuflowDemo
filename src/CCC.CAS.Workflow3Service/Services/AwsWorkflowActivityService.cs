@@ -56,12 +56,8 @@ namespace CCC.CAS.Workflow3Service.Services
 
         private async Task RegisterActivities(Domain domain)
         {
-            var method = domain.GetType().GetMethod("RegisterActivityAsync", 0, new[] { typeof(Type) } );
-            if (method != null) {
-                foreach (var t in _types) {
-                    var task = method.Invoke(domain, new[] { t }) as Task;
-                    await task!.ConfigureAwait(false);
-                }
+            foreach (var t in _types) {
+                await domain.RegisterActivityAsync(t).ConfigureAwait(false);
             }
         }
 

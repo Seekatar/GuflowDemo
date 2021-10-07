@@ -3,6 +3,7 @@ using Guflow.Decider;
 
 namespace CCC.CAS.Workflow3Service.Workflows
 {
+
     [WorkflowDescription("1.3", DefaultChildPolicy = ChildPolicy.Terminate,
         DefaultTaskListName = "defaultTaskList",
         DefaultExecutionStartToCloseTimeoutInSeconds = 10000,
@@ -13,11 +14,24 @@ namespace CCC.CAS.Workflow3Service.Workflows
         {
             ScheduleActivity<PpoProcessorA>();
 
-            ScheduleActivity<PpoProcessorB>()
+            ScheduleActivity<PpoProcessorC>()
                 .AfterActivity<PpoProcessorA>();
 
-            ScheduleActivity<PpoProcessorC>()
-                .AfterActivity<PpoProcessorB>();
+            ScheduleActivity<PpoProcessorB>()
+                .AfterActivity<PpoProcessorC>();
+
         }
+        class MyAction : WorkflowAction
+        {
+
+        }
+
+        // [WorkflowEvent(EventName.WorkflowStarted)]
+        public WorkflowAction WorkflowStarted(WorkflowEvent e)
+        {
+            System.Console.WriteLine($"In wf started {e} {Activities}");
+            return new ScheduleActivityDecision();
+        }
+
     }
 }
