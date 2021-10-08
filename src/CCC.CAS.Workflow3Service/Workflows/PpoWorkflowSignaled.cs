@@ -20,6 +20,7 @@ namespace CCC.CAS.Workflow3Service.Workflows
 
             ScheduleActivity<PpoProcessorC>()
                 .AfterActivity<PpoProcessorB>()
+                .When(_ => Signal("Signal-PpoProcessorB").IsReceived(d => true))
                 .OnCompletion(e => e.WaitForSignal("Signal-PpoProcessorC"));
 
             // added this because after C waits forever, even though signaled

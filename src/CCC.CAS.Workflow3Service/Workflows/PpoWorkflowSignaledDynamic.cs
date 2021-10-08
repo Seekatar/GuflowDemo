@@ -1,6 +1,7 @@
 ﻿using CCC.CAS.Workflow3Messages.Messages;
 using CCC.CAS.Workflow3Service.Activities;
 using Guflow.Decider;
+using Guflow.Worker;
 using System;
 using System.Linq;
 
@@ -12,30 +13,32 @@ namespace CCC.CAS.Workflow3Service.Workflows
         DefaultTaskStartToCloseTimeoutInSeconds = 20)]
     public class PpoWorkflowSignaledDynamic : Workflow
     {
+
         public PpoWorkflowSignaledDynamic()
         {
-            Started += OnWorkflowStarted;
         }
 
-        private void OnWorkflowStarted(object? sender, WorkflowStartedEventArgs e)
+        [WorkflowEvent(EventName.WorkflowStarted)]
+        public WorkflowAction WorkflowStarted(WorkflowEvent e)
         {
-            ScheduleActivity<PpoProcessorB>();
-        }
+            Console.WriteLine($"In wf started {e} {Activities}");
 
+            WorkflowItems workflowItems = new WorkflowItems();
 
-        [SignalEvent(Name = "Signal-PpoProcessorQ")]
-        public WorkflowAction OnSignal(WorkflowSignaledEvent e)
-        {
-            System.Console.WriteLine(e);
+            //1 error since no default task list
+            // Identity identity = Identity.New("PpoProcessorA", "1.0");
+            // var acitivityItem = new ActivityItem(identity, this);
 
-            // does nothing
-            ScheduleActivity<PpoProcessorB>()
-                .OnCompletion(e => e.WaitForSignal("Signal-PpoProcessorB"));
+            //2 this runs it, but since _workflowItems empty, at end of activity, it fails
+            //var description = ActivityDescription.FindOn<PpoProcessorA>();
+            //var activityItem = new ActivityItem(Identity.New(description.Name, description.Version), this);
+            //workflowItems.Add(activityItem);
+            // return  new StartWorkflowAction( workflowItems );
 
-            // doesn't work since "PpoProcessorB" isn't running. We need to remove it from the graph
-            // return CancelRequest.For(WorkflowItems.Where(i => (i as IActivityItem)?.Name == "PpoProcessorB"));
+            // 3 this works first time, but throws second time since PpoProcessorA in the list. 
+            ScheduleActivity<PpoProcessorA>();
 
-            return Ignore; 
+            return StartWorkflow();
         }
 
     }

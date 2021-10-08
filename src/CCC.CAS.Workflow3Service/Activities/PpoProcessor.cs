@@ -10,6 +10,12 @@ using System.Threading.Tasks;
 
 namespace CCC.CAS.Workflow3Service.Activities
 {
+    public class PpoResult
+    {
+        public string PpoName { get; set; } = "";
+        public bool Processed { get; set; }
+    }
+
     public class PpoProcessor<T> : CasActvity<T> where T : class
     {
         public PpoProcessor(IOptions<AwsWorkflowOptions> config, ILogger<T> logger, Domain domain) : base(config, logger, domain)
@@ -23,33 +29,43 @@ namespace CCC.CAS.Workflow3Service.Activities
 
             Logger.LogInformation(">>>>>>>>>> {typeName} processing for {clientCode}", GetType().Name, startPpo.ClientCode);
 
-            await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
-
-            if (!String.Equals(startPpo.ClientCode, "nationwide", StringComparison.OrdinalIgnoreCase))
-            {
-                DoWork(args, startPpo);
-            }
+            await DoWork(args, startPpo).ConfigureAwait(false);
 
             return Complete(new { Started = true });
         }
 
-        private void DoWork(ActivityArgs args, IStartPpo startPpo)
+        private async Task DoWork(ActivityArgs args, IStartPpo startPpo)
         {
-            var _ = Task.Run(async () =>
+            await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
+
+            if (SendSignal())
             {
-                await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
-
-                string workflowId = args.WorkflowId;
-                string runId = args.WorkflowRunId;
-
-                await Domain.SignalWorkflowAsync(new SignalWorkflowRequest(workflowId, $"Signal-{GetType().Name}")
+                var _ = Task.Run(async () =>
                 {
-                    SignalInput = new { Test = 1, ClassName = GetType().Name },
-                    WorkflowRunId = runId
-                }).ConfigureAwait(false);
-                Logger.LogInformation(">>>>>>>>>> {typeName} signaled for {clientCode}", GetType().Name, startPpo.ClientCode);
+                    await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
 
-            });
+                    string workflowId = args.WorkflowId;
+                    string runId = args.WorkflowRunId;
+
+                    await Domain.SignalWorkflowAsync(new SignalWorkflowRequest(workflowId, $"Signal-{GetType().Name}")
+                    {
+                        SignalInput = new PpoResult { PpoName = GetType().Name, Processed = Processed() },
+                        WorkflowRunId = runId
+                    }).ConfigureAwait(false);
+                    Logger.LogInformation(">>>>>>>>>> {typeName} signaled for {clientCode}", GetType().Name, startPpo.ClientCode);
+
+                });
+            }
+        }
+
+        virtual protected bool Processed()
+        {
+            return true;
+        }
+
+        virtual protected bool SendSignal()
+        {
+            return true;
         }
     }
 }

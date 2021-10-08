@@ -34,6 +34,12 @@ namespace TestMessages
                                                 ClientCode = "nationwide",
                                                 ProfileId = 180181,
                                                 RequestId = Guid.NewGuid().ToString()
+                                            },
+                                            new StartPpo
+                                            {
+                                                ClientCode = "usaa",
+                                                ProfileId = 180181,
+                                                RequestId = Guid.NewGuid().ToString()
                                             }
             };
             WriteLine("This is a test client for the message-driven Workflow application.");
@@ -64,7 +70,10 @@ namespace TestMessages
                     {
                         WriteLine(e);
                     }
-                    WriteLine("1 = geico 2 = nw, (Q)uit");
+                    WriteLine("1 = geico signaled ABC");
+                    WriteLine("2 = nw static ACB");
+                    WriteLine("3 = usaa dyanmic wf A");
+                    WriteLine("(Q)uit");
                     key = ReadKey(true).KeyChar.ToString().ToUpperInvariant();
                     WriteLine($"Processing {key}");
                 }

@@ -33,6 +33,7 @@ namespace CCC.CAS.Workflow3Service.Repositories
             StartWorkflowRequest request = startPpo.ClientCode switch
             {
                 "geico" => StartWorkflowRequest.For<PpoWorkflowSignaled>(workflowId),
+                "usaa" => StartWorkflowRequest.For<PpoWorkflowSignaledDynamic>(workflowId),
                 _ => StartWorkflowRequest.For<PpoWorkflow>(workflowId),
             };
             request.TaskListName = _config.DefaultTaskList;
