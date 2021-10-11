@@ -24,7 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CCC.CAS.API.AspNetCommon" Version="1.1.19" />
-    <PackageReference Include="CCC.CAS.Workflow3Messages" Version="1.0.0.4" />
+    <PackageReference Include="CCC.CAS.Workflow3Messages" Version="1.0.0.5" />
     <PackageReference Include="Guflow" Version="1.0.0.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
       <PrivateAssets>all</PrivateAssets>

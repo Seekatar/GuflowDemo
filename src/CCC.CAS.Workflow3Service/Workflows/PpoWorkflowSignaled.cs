@@ -27,7 +27,7 @@ namespace CCC.CAS.Workflow3Service.Workflows
                             { try
                                 {
                                     var startPop = JsonSerializer.Deserialize<StartPpo>(data);
-                                    return !startPop?.PpoBConsume ?? false;
+                                    return startPop?.PpoConsumer == this.GetType().Name;
                                 } 
                                 catch(Exception e)
                                 {

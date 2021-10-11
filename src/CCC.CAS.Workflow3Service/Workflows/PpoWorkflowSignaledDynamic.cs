@@ -35,39 +35,28 @@ namespace CCC.CAS.Workflow3Service.Workflows
             //    .OnCompletion(e => e.WaitForSignal("Signal-PpoProcessorC"));
 
             // added this because after C waits forever, even though signaled
-            ScheduleActivity<PpoEnd>()
-                .AfterActivity<PpoProcessorA>()
-                .When(_ => false);
+            //ScheduleActivity<PpoEnd>()
+            //    .AfterActivity<PpoProcessorA>()
+            //    .When(_ => false);
         }
 
         [SignalEvent(Name = "Signal-PpoProcessorA")]
         public WorkflowAction SignalA(WorkflowSignaledEvent e)
         {
-            if (e != null)
-            {
-                try
-                {
-                    var result = JsonSerializer.Deserialize<PpoResult>(e.Input);
-                    if (result?.Processed ?? false)
-                    {
-                        return CompleteWorkflow(result.PpoName);
-                    }
-                    else
-                    {
-                        return ScheduleWorkflowItemAction.ScheduleByIgnoringWhen((this as IWorkflow).WorkflowItem(Identity.New("PpoProcessorB","1.4")));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            }
-            return Ignore;
+            return ScheduleNextPpo(e, PpoProcessorB.Identity);
         }
-
-
         [SignalEvent(Name = "Signal-PpoProcessorB")]
         public WorkflowAction SignalB(WorkflowSignaledEvent e)
+        {
+            return ScheduleNextPpo(e, PpoProcessorC.Identity);
+        }
+        [SignalEvent(Name = "Signal-PpoProcessorC")]
+        public WorkflowAction SignalC(WorkflowSignaledEvent _)
+        {
+            return CompleteWorkflow(nameof(PpoProcessorC));
+        }
+
+        private WorkflowAction ScheduleNextPpo(WorkflowSignaledEvent e, Identity identity)
         {
             if (e != null)
             {
@@ -76,11 +65,11 @@ namespace CCC.CAS.Workflow3Service.Workflows
                     var result = JsonSerializer.Deserialize<PpoResult>(e.Input);
                     if (result?.Processed ?? false)
                     {
-                        return CompleteWorkflow(result.PpoName);
+                        return CompleteWorkflow(result?.PpoName ?? "Unknown");
                     }
                     else
                     {
-                        return ScheduleWorkflowItemAction.ScheduleByIgnoringWhen((this as IWorkflow).WorkflowItem(Identity.New("PpoEnd", "1.3")));
+                        return ScheduleWorkflowItemAction.ScheduleByIgnoringWhen((this as IWorkflow).WorkflowItem(identity));
                     }
                 }
                 catch (Exception ex)
@@ -90,5 +79,6 @@ namespace CCC.CAS.Workflow3Service.Workflows
             }
             return Ignore;
         }
+
     }
 }

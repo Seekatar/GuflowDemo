@@ -12,7 +12,7 @@ namespace CCC.CAS.Workflow3Messages.Messages
         string ClientCode { get; }
         int ProfileId { get; }
         bool SendSignal { get; }
-        bool PpoBConsume { get; }
+        string PpoConsumer { get; }
     }
 
     public class StartPpo : IStartPpo
@@ -28,6 +28,6 @@ namespace CCC.CAS.Workflow3Messages.Messages
 
         public bool SendSignal { get; set; }
 
-        public bool PpoBConsume { get; set; }
+        public string PpoConsumer { get; set; } = "";
     }
 }

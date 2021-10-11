@@ -1,6 +1,7 @@
 ﻿using CCC.CAS.Workflow3Messages.Messages;
 using CCC.CAS.Workflow3Service.Services;
 using Guflow;
+using Guflow.Decider;
 using Guflow.Worker;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -20,9 +21,7 @@ namespace CCC.CAS.Workflow3Service.Activities
         {
         }
 
-        protected override bool Processed(IStartPpo startPpo)
-        {
-            return startPpo?.PpoBConsume ?? false;
-        }
+        public static Identity Identity => Identity.New(nameof(PpoProcessorB), "1.4");
+
     }
 }

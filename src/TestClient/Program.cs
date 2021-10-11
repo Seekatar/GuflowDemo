@@ -42,7 +42,31 @@ namespace TestMessages
                                                 ProfileId = 180181,
                                                 RequestId = Guid.NewGuid().ToString(),
                                                 SendSignal = true,
-                                                PpoBConsume = true
+                                                PpoConsumer = "PpoProcessorA"
+                                            },
+                                            new StartPpo
+                                            {
+                                                ClientCode = "usaa",
+                                                ProfileId = 180181,
+                                                RequestId = Guid.NewGuid().ToString(),
+                                                SendSignal = true,
+                                                PpoConsumer = "PpoProcessorB"
+                                            },
+                                            new StartPpo
+                                            {
+                                                ClientCode = "usaa",
+                                                ProfileId = 180181,
+                                                RequestId = Guid.NewGuid().ToString(),
+                                                SendSignal = true,
+                                                PpoConsumer = "PpoProcessorC"
+                                            },
+                                            new StartPpo
+                                            {
+                                                ClientCode = "usaa",
+                                                ProfileId = 180181,
+                                                RequestId = Guid.NewGuid().ToString(),
+                                                SendSignal = true,
+                                                PpoConsumer = "PpoProcessorX"
                                             }
             };
             WriteLine("This is a test client for the message-driven Workflow application.");
@@ -76,6 +100,9 @@ namespace TestMessages
                     WriteLine("1 = geico signaled ABC");
                     WriteLine("2 = nw static ACB");
                     WriteLine("3 = usaa dyanmic wf A");
+                    WriteLine("4 = usaa dyanmic wf AB");
+                    WriteLine("5 = usaa dyanmic wf ABC");
+                    WriteLine("6 = usaa dyanmic wf ABCx");
                     WriteLine("(Q)uit");
                     key = ReadKey(true).KeyChar.ToString().ToUpperInvariant();
                     WriteLine($"Processing {key}");

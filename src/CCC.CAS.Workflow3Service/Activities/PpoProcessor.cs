@@ -60,7 +60,7 @@ namespace CCC.CAS.Workflow3Service.Activities
 
         virtual protected bool Processed(IStartPpo startPpo)
         {
-            return false;
+            return startPpo?.PpoConsumer == this.GetType().Name;
         }
     }
 }
