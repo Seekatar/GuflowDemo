@@ -26,6 +26,7 @@ namespace CCC.CAS.Workflow3Service.Services
             await _domain.RegisterWorkflowAsync<PpoWorkflow>().ConfigureAwait(false);
             await _domain.RegisterWorkflowAsync<PpoWorkflowSignaled>().ConfigureAwait(false);
             await _domain.RegisterWorkflowAsync<PpoWorkflowSignaledDynamic>().ConfigureAwait(false);
+            await _domain.RegisterWorkflowAsync<MainWorkflow>().ConfigureAwait(false);
         }
     }
 }

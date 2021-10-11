@@ -113,5 +113,10 @@ namespace IntegrationTest
             _serviceWorkflow3?.Dispose();
             GC.SuppressFinalize(this);
         }
+
+        public async Task<bool> StartWorkflow(StartWorkflow startWorkflow, CallerIdentity identity)
+        {
+            return (await _busControl.RequestResponse<IStartWorkflow, IStartWorkflowResponse>(startWorkflow, identity).ConfigureAwait(false))?.Started ?? false;
+        }
     }
 }

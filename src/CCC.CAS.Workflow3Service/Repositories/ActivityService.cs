@@ -25,7 +25,19 @@ namespace CCC.CAS.Workflow3Service.Repositories
             _domain = domain;
         }
 
-        public async Task StartWorkflow(IStartPpo startPpo)
+        public async Task StartWorkflow(IStartWorkflow scenario)
+        {
+            var workflowId = Guid.NewGuid().ToString();
+            _logger.LogInformation("Starting workflow with id {workflowId}", workflowId);
+
+            StartWorkflowRequest request = StartWorkflowRequest.For<MainWorkflow>(workflowId);
+
+            request.TaskListName = _config.DefaultTaskList;
+            request.Input = scenario; // can't be null
+            await _domain.StartWorkflowAsync(request).ConfigureAwait(false);
+        }
+
+        public async Task StartPpoWorkflow(IStartPpo startPpo)
         {
             var workflowId = Guid.NewGuid().ToString();
             _logger.LogInformation("Starting workflow with id {workflowId}", workflowId);

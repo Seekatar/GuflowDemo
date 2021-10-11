@@ -92,6 +92,29 @@ namespace TestMessages
                                 WriteLine("Waiting for StartPpoResponse published message timed out!");
                             }
                         }
+                        else if (key == "W")
+                        {
+                            var swf = new StartWorkflow
+                            {
+                                CorrelationId = Guid.NewGuid(),
+                                ClientCode = "usaa",
+                                ProfileId = 180181,
+                                RequestId = Guid.NewGuid().ToString(),
+                                SendSignal = true,
+                                PpoConsumer = "PpoProcessorC"
+                            };
+                            var identity = new CallerIdentity { ClientCode = swf.ClientCode, ClientProfileId = startPpo[4].ProfileId, Username = "testClient" };
+                            var started = await sender.StartWorkflow(swf, identity);
+                            if (started)
+                            {
+                                WriteLine($"Waited for start ppo for {swf.ClientCode}!");
+                            }
+                            else
+                            {
+                                WriteLine("Waiting for StartPpoResponse published message timed out!");
+                            }
+
+                        }
                     }
                     catch (Exception e)
                     {
@@ -103,6 +126,7 @@ namespace TestMessages
                     WriteLine("4 = usaa dyanmic wf AB");
                     WriteLine("5 = usaa dyanmic wf ABC");
                     WriteLine("6 = usaa dyanmic wf ABCx");
+                    WriteLine("W = start workflow");
                     WriteLine("(Q)uit");
                     key = ReadKey(true).KeyChar.ToString().ToUpperInvariant();
                     WriteLine($"Processing {key}");

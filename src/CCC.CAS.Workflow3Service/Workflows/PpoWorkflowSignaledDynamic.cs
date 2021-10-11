@@ -27,29 +27,20 @@ namespace CCC.CAS.Workflow3Service.Workflows
             ScheduleActivity<PpoProcessorC>()
                 .When(_ => false)
                 .OnCompletion(e => e.WaitForSignal("Signal-PpoProcessorC"));
-
-            //    .AfterActivity<PpoProcessorA>()
-
-            //ScheduleActivity<PpoProcessorC>()
-            //    .AfterActivity<PpoProcessorB>()
-            //    .OnCompletion(e => e.WaitForSignal("Signal-PpoProcessorC"));
-
-            // added this because after C waits forever, even though signaled
-            //ScheduleActivity<PpoEnd>()
-            //    .AfterActivity<PpoProcessorA>()
-            //    .When(_ => false);
         }
 
         [SignalEvent(Name = "Signal-PpoProcessorA")]
         public WorkflowAction SignalA(WorkflowSignaledEvent e)
         {
-            return ScheduleNextPpo(e, PpoProcessorB.Identity);
+            return ScheduleNextPpo(e, CasActvity<PpoProcessorB>.Identity);
         }
+
         [SignalEvent(Name = "Signal-PpoProcessorB")]
         public WorkflowAction SignalB(WorkflowSignaledEvent e)
         {
-            return ScheduleNextPpo(e, PpoProcessorC.Identity);
+            return ScheduleNextPpo(e, CasActvity<PpoProcessorC>.Identity);
         }
+
         [SignalEvent(Name = "Signal-PpoProcessorC")]
         public WorkflowAction SignalC(WorkflowSignaledEvent _)
         {

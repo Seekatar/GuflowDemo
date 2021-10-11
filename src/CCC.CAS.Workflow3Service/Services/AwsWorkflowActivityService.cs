@@ -32,6 +32,7 @@ namespace CCC.CAS.Workflow3Service.Services
         {
             try
             {
+                // TODO move to activity
                 await RegisterActivities(_domain).ConfigureAwait(false);
 
                 using var host = _domain.Host(_types, GetActivity);

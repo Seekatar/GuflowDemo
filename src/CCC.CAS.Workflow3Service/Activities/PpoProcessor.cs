@@ -16,7 +16,7 @@ namespace CCC.CAS.Workflow3Service.Activities
         public bool Processed { get; set; }
     }
 
-    public class PpoProcessor<T> : CasActvity<T> where T : class
+    public class PpoProcessor<T> : CasActvity<T> where T : Activity
     {
         public PpoProcessor(IOptions<AwsWorkflowOptions> config, ILogger<T> logger, Domain domain) : base(config, logger, domain)
         {

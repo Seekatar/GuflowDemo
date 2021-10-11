@@ -20,8 +20,5 @@ namespace CCC.CAS.Workflow3Service.Activities
         public PpoProcessorB(IOptions<AwsWorkflowOptions> config, ILogger<PpoProcessorB> logger, Domain domain) : base(config, logger, domain)
         {
         }
-
-        public static Identity Identity => Identity.New(nameof(PpoProcessorB), "1.4");
-
     }
 }

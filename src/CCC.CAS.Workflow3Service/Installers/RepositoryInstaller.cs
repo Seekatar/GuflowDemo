@@ -14,68 +14,6 @@ using Microsoft.Extensions.Logging;
 
 namespace CCC.CAS.Workflow3Service.Installers
 {
-    class CustomLog : ILog
-    {
-        private readonly string _name;
-        private readonly ILogger<RepositoryInstaller> _logger;
-
-        public CustomLog(string name, ILogger<RepositoryInstaller> debugLogger)
-        {
-            _name = name;
-            _logger = debugLogger;
-        }
-
-        public void Debug(string message)
-        {
-            _logger.LogDebug($"{_name}: {message}");
-        }
-
-        public void Debug(string message, Exception exception)
-        {
-            _logger.LogDebug(exception,$"{_name}: {message}");
-        }
-
-        public void Error(string message)
-        {
-            _logger.LogError($"{_name}: {message}");
-        }
-
-        public void Error(string message, Exception exception)
-        {
-            _logger.LogError(exception, $"{_name}: {message}");
-        }
-
-        public void Fatal(string message)
-        {
-            _logger.LogCritical($"{_name}: {message}");
-        }
-
-        public void Fatal(string message, Exception exception)
-        {
-            _logger.LogCritical(exception, $"{_name}: {message}");
-        }
-
-        public void Info(string message)
-        {
-            _logger.LogInformation($"{_name}: {message}");
-        }
-
-        public void Info(string message, Exception exception)
-        {
-            _logger.LogInformation(exception, $"{_name}: {message}");
-        }
-
-        public void Warn(string message)
-        {
-            _logger.LogWarning($"{_name}: {message}");
-        }
-
-        public void Warn(string message, Exception exception)
-        {
-            _logger.LogWarning(exception, $"{_name}: {message}");
-        }
-    }
-
     public class RepositoryInstaller : IInstaller
     {
         private readonly ILogger<RepositoryInstaller> _debugLogger;
@@ -92,30 +30,23 @@ namespace CCC.CAS.Workflow3Service.Installers
             try
             {
                 services.AddHostedService<AwsWorkflowDeciderService>();
-                services.AddHostedService<AwsWorkflowActivityService>();
-
 
                 var section = configuration.GetSection(AwsWorkflowOptions.DefaultConfigName);
                 var _config = section.Get<AwsWorkflowOptions>();
 
                 services.AddSingleton((provider) => new AmazonSimpleWorkflowClient(_config.AccessKey, _config.SecretKey, RegionEndpoint.GetBySystemName(_config.Region)));
 
-                services.AddSingleton((provider) => new Domain(_config.Domain, provider.GetRequiredService< AmazonSimpleWorkflowClient>()));
+                services.AddSingleton((provider) => new Domain(_config.Domain, provider.GetRequiredService<AmazonSimpleWorkflowClient>()));
 
                 services.AddOptions<AwsWorkflowOptions>()
                          .Bind(section)
                          .ValidateDataAnnotations();
 
-                services.AddTransient(typeof(PpoProcessorA));
-                services.AddTransient(typeof(PpoProcessorB));
-                services.AddTransient(typeof(PpoProcessorC));
-                services.AddTransient(typeof(PpoEnd));
 
                 services.AddSingleton<IActivityService,ActivityService>();
                 services.AddSingleton<AwsWorkflowRegistration>();
 
-
-                Log.Register(type => new CustomLog(type.Name, _debugLogger));
+                Log.Register(type => new GuflowLogger(type.Name, _debugLogger));
 
                 _debugLogger.LogDebug("Services added.");
             }

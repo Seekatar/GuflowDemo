@@ -5,7 +5,8 @@ namespace CCC.CAS.Workflow3Service.Interfaces
 {
     public interface IActivityService
     {
-        Task StartWorkflow(IStartPpo scenario);
+        Task StartPpoWorkflow(IStartPpo scenario);
+        Task StartWorkflow(IStartWorkflow scenario);
     }
 
 }
