@@ -27,7 +27,8 @@ namespace TestMessages
                                             {
                                                 ClientCode = "geico",
                                                 ProfileId = 176453,
-                                                RequestId = Guid.NewGuid().ToString()
+                                                RequestId = Guid.NewGuid().ToString(),
+                                                SendSignal = true
                                             },
                                             new StartPpo
                                             {
@@ -39,7 +40,9 @@ namespace TestMessages
                                             {
                                                 ClientCode = "usaa",
                                                 ProfileId = 180181,
-                                                RequestId = Guid.NewGuid().ToString()
+                                                RequestId = Guid.NewGuid().ToString(),
+                                                SendSignal = true,
+                                                PpoBConsume = true
                                             }
             };
             WriteLine("This is a test client for the message-driven Workflow application.");

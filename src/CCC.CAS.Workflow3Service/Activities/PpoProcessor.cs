@@ -38,7 +38,7 @@ namespace CCC.CAS.Workflow3Service.Activities
         {
             await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
 
-            if (SendSignal())
+            if (startPpo.SendSignal)
             {
                 var _ = Task.Run(async () =>
                 {
@@ -49,7 +49,7 @@ namespace CCC.CAS.Workflow3Service.Activities
 
                     await Domain.SignalWorkflowAsync(new SignalWorkflowRequest(workflowId, $"Signal-{GetType().Name}")
                     {
-                        SignalInput = new PpoResult { PpoName = GetType().Name, Processed = Processed() },
+                        SignalInput = new PpoResult { PpoName = GetType().Name, Processed = Processed(startPpo) },
                         WorkflowRunId = runId
                     }).ConfigureAwait(false);
                     Logger.LogInformation(">>>>>>>>>> {typeName} signaled for {clientCode}", GetType().Name, startPpo.ClientCode);
@@ -58,14 +58,9 @@ namespace CCC.CAS.Workflow3Service.Activities
             }
         }
 
-        virtual protected bool Processed()
+        virtual protected bool Processed(IStartPpo startPpo)
         {
-            return true;
-        }
-
-        virtual protected bool SendSignal()
-        {
-            return true;
+            return false;
         }
     }
 }

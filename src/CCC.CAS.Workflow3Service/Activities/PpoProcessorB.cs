@@ -1,4 +1,5 @@
-﻿using CCC.CAS.Workflow3Service.Services;
+﻿using CCC.CAS.Workflow3Messages.Messages;
+using CCC.CAS.Workflow3Service.Services;
 using Guflow;
 using Guflow.Worker;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,11 @@ namespace CCC.CAS.Workflow3Service.Activities
     {
         public PpoProcessorB(IOptions<AwsWorkflowOptions> config, ILogger<PpoProcessorB> logger, Domain domain) : base(config, logger, domain)
         {
+        }
+
+        protected override bool Processed(IStartPpo startPpo)
+        {
+            return startPpo?.PpoBConsume ?? false;
         }
     }
 }
