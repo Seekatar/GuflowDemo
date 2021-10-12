@@ -3,7 +3,7 @@ using CCC.CAS.API.Common.Logging;
 using Guflow;
 using Microsoft.Extensions.Logging;
 
-namespace CCC.CAS.Workflow
+namespace CCC.CAS.Workflow3Messages.AwsWorkflow
 {
     class GuflowLogger : ILog
     {
@@ -23,7 +23,7 @@ namespace CCC.CAS.Workflow
 
         public void Debug(string message, Exception exception)
         {
-            _logger.LogDebug(exception,$"{_name}: {message}");
+            _logger.LogDebug(exception, $"{_name}: {message}");
         }
 
         public void Error(string message)

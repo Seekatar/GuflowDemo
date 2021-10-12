@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Amazon.SimpleWorkflow;
 using Microsoft.Extensions.Configuration;
 
-namespace CCC.CAS.Workflow3Service.Services
+namespace CCC.CAS.Workflow3Messages.AwsWorkflow
 {
     public class AwsWorkflowOptions
     {
@@ -37,8 +37,10 @@ namespace CCC.CAS.Workflow3Service.Services
         public string Domain { get; set; } = "";
         [MinLength(5)]
         public string DefaultTaskList { get; set; } = "defaultTaskList";
+        [MinLength(5)]
+        public string InstallerName { get; set; } = "";
 
-        public bool IsEnabled => !string.IsNullOrEmpty(AccessKey) && !string.IsNullOrEmpty(SecretKey) && !string.IsNullOrEmpty(Region) && !string.IsNullOrEmpty(Domain);
+        public bool IsEnabled => !string.IsNullOrEmpty(AccessKey) && !string.IsNullOrEmpty(SecretKey) && !string.IsNullOrEmpty(Region) && !string.IsNullOrEmpty(Domain) && !string.IsNullOrEmpty(InstallerName);
 
         public override string ToString()
         {

@@ -5,7 +5,6 @@ using CCC.CAS.API.Common.Installers;
 using CCC.CAS.API.Common.Logging;
 using CCC.CAS.Workflow3Service.Activities;
 using CCC.CAS.Workflow3Service.Interfaces;
-using CCC.CAS.Workflow3Service.Repositories;
 using CCC.CAS.Workflow3Service.Services;
 using Guflow;
 using Microsoft.Extensions.Configuration;
@@ -29,24 +28,7 @@ namespace CCC.CAS.Workflow3Service.Installers
 
             try
             {
-                services.AddHostedService<AwsWorkflowDeciderService>();
-
-                var section = configuration.GetSection(AwsWorkflowOptions.DefaultConfigName);
-                var _config = section.Get<AwsWorkflowOptions>();
-
-                services.AddSingleton((provider) => new AmazonSimpleWorkflowClient(_config.AccessKey, _config.SecretKey, RegionEndpoint.GetBySystemName(_config.Region)));
-
-                services.AddSingleton((provider) => new Domain(_config.Domain, provider.GetRequiredService<AmazonSimpleWorkflowClient>()));
-
-                services.AddOptions<AwsWorkflowOptions>()
-                         .Bind(section)
-                         .ValidateDataAnnotations();
-
-
-                services.AddSingleton<IActivityService,ActivityService>();
-                services.AddSingleton<AwsWorkflowRegistration>();
-
-                Log.Register(type => new GuflowLogger(type.Name, _debugLogger));
+                services.AddSingleton<IWorkflowService,WorkflowService>();
 
                 _debugLogger.LogDebug("Services added.");
             }

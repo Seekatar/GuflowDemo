@@ -1,24 +1,24 @@
 using System;
 using System.Threading.Tasks;
+using CCC.CAS.Workflow3Messages.AwsWorkflow;
 using CCC.CAS.Workflow3Messages.Messages;
 using CCC.CAS.Workflow3Service.Interfaces;
-using CCC.CAS.Workflow3Service.Services;
 using CCC.CAS.Workflow3Service.Workflows;
 using Guflow;
 using Guflow.Decider;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CCC.CAS.Workflow3Service.Repositories
+namespace CCC.CAS.Workflow3Service.Services
 {
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes
-    internal class ActivityService : IActivityService
+    internal class WorkflowService : IWorkflowService
     {
         private readonly AwsWorkflowOptions _config;
-        private readonly ILogger<ActivityService> _logger;
+        private readonly ILogger<WorkflowService> _logger;
         private readonly Domain _domain;
 
-        public ActivityService(IOptions<AwsWorkflowOptions> config, ILogger<ActivityService> logger, Domain domain)
+        public WorkflowService(IOptions<AwsWorkflowOptions> config, ILogger<WorkflowService> logger, Domain domain)
         {
             _config = config.Value;
             _logger = logger;

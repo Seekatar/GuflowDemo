@@ -12,9 +12,9 @@ namespace CCC.CAS.Workflow3Service.Consumers
     public class StartWorkflowConsumer : IConsumer<IStartWorkflow>
     {
         private readonly ILogger<StartWorkflowConsumer> _logger;
-        private readonly IActivityService _activityService;
+        private readonly IWorkflowService _activityService;
 
-        public StartWorkflowConsumer(ILogger<StartWorkflowConsumer> logger, IActivityService activityService)
+        public StartWorkflowConsumer(ILogger<StartWorkflowConsumer> logger, IWorkflowService activityService)
         {
             _logger = logger;
             _activityService = activityService;

@@ -12,9 +12,9 @@ namespace CCC.CAS.Workflow3Service.Consumers
     public class StartPpoConsumer : IConsumer<IStartPpo>
     {
         private readonly ILogger<StartPpoConsumer> _logger;
-        private readonly IActivityService _workflow2Repository;
+        private readonly IWorkflowService _workflow2Repository;
 
-        public StartPpoConsumer(ILogger<StartPpoConsumer> logger, IActivityService activityService)
+        public StartPpoConsumer(ILogger<StartPpoConsumer> logger, IWorkflowService activityService)
         {
             _logger = logger;
             _workflow2Repository = activityService;

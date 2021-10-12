@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace CCC.CAS.Workflow3Service.Interfaces
 {
-    public interface IActivityService
+    public interface IWorkflowService
     {
         Task StartPpoWorkflow(IStartPpo scenario);
         Task StartWorkflow(IStartWorkflow scenario);

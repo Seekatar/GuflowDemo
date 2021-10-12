@@ -1,10 +1,11 @@
 ﻿using CCC.CAS.Workflow3Messages.AwsWorkflow;
 using CCC.CAS.Workflow3Service.Services;
 using Guflow;
-using Guflow.Decider;
 using Guflow.Worker;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Threading.Tasks;
 
 namespace CCC.CAS.Workflow3Service.Activities
 {
@@ -15,10 +16,20 @@ namespace CCC.CAS.Workflow3Service.Activities
         DefaultScheduleToStartTimeoutInSeconds = 1000,
         DefaultStartToCloseTimeoutInSeconds = 1000
         )]
-    public class PpoProcessorC : PpoProcessor<PpoProcessorC>
+    public class PpoEnd : CasActvity<PpoEnd>
     {
-        public PpoProcessorC(IOptions<AwsWorkflowOptions> config, ILogger<PpoProcessorC> logger, Domain domain) : base(config, logger, domain)
+        public PpoEnd(IOptions<AwsWorkflowOptions> config, ILogger<PpoEnd> logger, Domain domain) : base(config, logger, domain)
         {
+        }
+
+        [ActivityMethod]
+        public async Task<ActivityResponse> Execute(ActivityArgs _)
+        {
+            Logger.LogInformation($">>>>>>>>>> {GetType().Name} processing...");
+
+            await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
+
+            return Complete(new { Started = true });
         }
     }
 }

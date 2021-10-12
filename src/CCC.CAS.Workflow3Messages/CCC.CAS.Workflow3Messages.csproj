@@ -26,7 +26,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Guflow" Version="1.0.0.2" />
-    <PackageReference Include="CCC.CAS.Common" Version="5.0.0.4" />
+    <PackageReference Include="CCC.CAS.Common" Version="5.0.0.12" />
     <PackageReference Include="MassTransit.ActiveMQ" Version="7.0.7" />
     <PackageReference Include="MassTransit.Analyzers" Version="7.0.7" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
