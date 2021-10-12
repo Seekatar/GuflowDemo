@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace CCC.CAS.Workflow3Messages.AwsWorkflow
+namespace CCC.CAS.AwsWorkflow
 {
 
     public class AwsWorkflowDeciderService : AwsWorkflowService<Workflow>

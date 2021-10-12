@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using CCC.CAS.Workflow3Messages.AwsWorkflow;
+using CCC.CAS.AwsWorkflow;
 using CCC.CAS.Workflow3Messages.Messages;
 using CCC.CAS.Workflow3Service.Interfaces;
 using CCC.CAS.Workflow3Service.Workflows;

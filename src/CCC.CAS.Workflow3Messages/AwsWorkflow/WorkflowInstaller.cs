@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 
-namespace CCC.CAS.Workflow3Messages.AwsWorkflow
+namespace CCC.CAS.AwsWorkflow
 {
     public abstract class WorkflowInstaller<T> : IInstaller where T : class, IHostedService
     {

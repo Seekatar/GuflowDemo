@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CCC.CAS.Workflow3Messages.AwsWorkflow
+namespace CCC.CAS.AwsWorkflow
 {
     public class AwsWorkflowActivityService : AwsWorkflowService<Activity>
     {

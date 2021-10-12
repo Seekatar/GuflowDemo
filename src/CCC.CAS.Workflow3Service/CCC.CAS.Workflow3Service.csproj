@@ -23,8 +23,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CCC.CAS.API.AspNetCommon" Version="5.0.0.12" />
-    <PackageReference Include="CCC.CAS.Workflow3Messages" Version="1.0.0.13" />
+    <PackageReference Include="CCC.CAS.API.AspNetCommon" Version="5.0.0.16" />
+    <PackageReference Include="CCC.CAS.Workflow3Messages" Version="1.0.0.16" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -49,5 +49,10 @@
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.InfluxDB.Standard" Version="1.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CCC.CAS.Workflow3Activities">
+      <HintPath>..\..\..\CAS-Workflow3-Activities\src\CCC.CAS.Workflow3Activities\bin\Debug\net5.0\CCC.CAS.Workflow3Activities.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿using CCC.CAS.Workflow3Service.Activities;
-using Guflow.Decider;
+﻿using Guflow.Decider;
 using System;
 
 namespace CCC.CAS.Workflow3Service.Workflows

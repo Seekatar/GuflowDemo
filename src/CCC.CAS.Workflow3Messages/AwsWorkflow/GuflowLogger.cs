@@ -3,7 +3,7 @@ using CCC.CAS.API.Common.Logging;
 using Guflow;
 using Microsoft.Extensions.Logging;
 
-namespace CCC.CAS.Workflow3Messages.AwsWorkflow
+namespace CCC.CAS.AwsWorkflow
 {
     class GuflowLogger : ILog
     {

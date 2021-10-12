@@ -6,7 +6,7 @@ using Guflow;
 using System.Collections.Generic;
 using Guflow.Decider;
 
-namespace CCC.CAS.Workflow3Messages.AwsWorkflow
+namespace CCC.CAS.AwsWorkflow
 {
 
     public abstract class AwsWorkflowService<T> : BackgroundService where T : class

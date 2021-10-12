@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Amazon.SimpleWorkflow;
 using Microsoft.Extensions.Configuration;
 
-namespace CCC.CAS.Workflow3Messages.AwsWorkflow
+namespace CCC.CAS.AwsWorkflow
 {
     public class AwsWorkflowOptions
     {

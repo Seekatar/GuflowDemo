@@ -1,4 +1,5 @@
-﻿using CCC.CAS.Workflow3Messages.Messages;
+﻿using CCC.CAS.AwsWorkflow;
+using CCC.CAS.Workflow3Messages.Messages;
 using CCC.CAS.Workflow3Service.Activities;
 using Guflow.Decider;
 using Guflow.Worker;
@@ -32,13 +33,13 @@ namespace CCC.CAS.Workflow3Service.Workflows
         [SignalEvent(Name = "Signal-PpoProcessorA")]
         public WorkflowAction SignalA(WorkflowSignaledEvent e)
         {
-            return ScheduleNextPpo(e, CasActvity<PpoProcessorB>.Identity);
+            return ScheduleNextPpo(e, AwsActivity.ActivityIdentity<PpoProcessorB>());
         }
 
         [SignalEvent(Name = "Signal-PpoProcessorB")]
         public WorkflowAction SignalB(WorkflowSignaledEvent e)
         {
-            return ScheduleNextPpo(e, CasActvity<PpoProcessorC>.Identity);
+            return ScheduleNextPpo(e, AwsActivity.ActivityIdentity<PpoProcessorC>());
         }
 
         [SignalEvent(Name = "Signal-PpoProcessorC")]
