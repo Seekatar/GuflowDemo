@@ -12,7 +12,7 @@
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    <PackageReference Include="CCC.CAS.API.AspNetCommon" Version="1.1.19" />
+    <PackageReference Include="CCC.CAS.API.AspNetCommon" Version="5.0.0.3" />
     <PackageReference Include="CCC.CAS.Workflow3Messages" Version="1.0.0.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.3" />

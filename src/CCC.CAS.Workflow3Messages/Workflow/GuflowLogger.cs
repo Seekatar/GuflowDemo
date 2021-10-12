@@ -3,7 +3,7 @@ using CCC.CAS.API.Common.Logging;
 using Guflow;
 using Microsoft.Extensions.Logging;
 
-namespace CCC.CAS.Workflow3Service.Installers
+namespace CCC.CAS.Workflow
 {
     class GuflowLogger : ILog
     {

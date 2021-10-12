@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Guflow;
 using CCC.CAS.Workflow3Service.Workflows;
 
-namespace CCC.CAS.Workflow3Service.Services
+namespace CCC.CAS.Workflow
 {
     public class AwsWorkflowRegistration
     {
